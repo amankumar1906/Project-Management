@@ -1,7 +1,9 @@
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
-import Clients from "./components/Client";
-import AddClientModal from "./components/AddClientModal";
+import Home from "./Pages/Home";
+import NotFound from "./Pages/NotFound";
+import Project from "./Pages/Project";
 
 //Remove warning when deleting using Cache
 const cache = new InMemoryCache({
@@ -36,11 +38,16 @@ function App() {
   return (
     <>
       <ApolloProvider client={client}>
-        <Header />
-        <div className="Container">
-          <AddClientModal />
-          <Clients />
-        </div>
+        <Router>
+          <Header />
+          <div className="Container">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="*" element={<NotFound />} />
+              <Route path="/projects/:id" element={<Project />} />
+            </Routes>
+          </div>
+        </Router>
       </ApolloProvider>
     </>
   );
